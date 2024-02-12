@@ -3,7 +3,7 @@ title: Stream Conversation Details to AWS Kinesis
 author: evelyn.hannon
 indextype: blueprint
 icon: blueprint
-image: images/Genesys Conversation Streaming Blueprint Architecture.png
+image: images/GenesysConversationStreamingBlueprintArchitecture.png
 category: 5
 summary: |
   This blueprint outlines steps and advice on how to setup, use and customise the Genesys Cloud integration with AWS Kinesis.  
@@ -23,7 +23,7 @@ This blueprint outlines steps and advice on how to setup, use and customise the 
 
 # Architecture Design Diagram
 
-![](./images/Genesys Conversation Streaming Blueprint Architecture.png)
+![](./images/GenesysConversationStreamingBlueprintArchitecture.png)
 
 # Information Shared by default
 
