@@ -1,0 +1,28 @@
+{
+  "version": "0",
+  "id": "adbcfa5b-0116-4baa-b66b-a3f5902e95bf",
+  "detail-type": "v2.something.but.conversation.{id}.customer.start",
+  "source": "aws.partner/genesys.com.test/cloud/32aa07aa-db1b-4987-abd0-9483601ec29d/test-event-bus",
+  "account": "123456789012",
+  "time": "2022-04-06T09:30:45Z",
+  "region": "us-east-1",
+  "resources": [],
+  "detail": {
+    "topicName": "v2.detail.events.conversation.2f7bf00a-0fc2-4d6a-9b56-92238191433e.customer.start",
+    "version": "2",
+    "eventBody": {
+      "eventTime": 1649237444949,
+      "conversationId": "2f7bf00a-0fc2-4d6a-9b56-92238191433e",
+      "participantId": "9fb2ca78-8389-4758-b76a-9b0300de1fce",
+      "sessionId": "c03d300e-fa79-4353-9695-b97a71322785",
+      "mediaType": "CHAT",
+      "provider": "PureCloud Webchat v2",
+      "direction": "INBOUND",
+      "conversationExternalContactIds": ["idk"]
+    },
+    "metadata": {
+      "CorrelationId": "fe8a8579-b83f-4f07-b371-2b39398f91a8"
+    },
+    "timestamp": "2022-04-06T09:30:45.013Z"
+  }
+}

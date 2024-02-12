@@ -1,0 +1,13 @@
+{
+  "_id": "adbcfa5b-0116-4baa-b66b-a3f5902e95bf",
+  "version": "2",
+  "conversationId": "2f7bf00a-0fc2-4d6a-9b56-92238191433e",
+  "topicName": "v2.detail.events.conversation.2f7bf00a-0fc2-4d6a-9b56-92238191433e.customer.start",
+  "timestamp": 1649237444949,
+  "mediaType": "CHAT",
+  "provider": "PureCloud Webchat v2",
+  "direction": "INBOUND",
+  "sessionId": "c03d300e-fa79-4353-9695-b97a71322785",
+  "duration": null,
+  "customerId": "9fb2ca78-8389-4758-b76a-9b0300de1fce"
+}
