@@ -33,5 +33,6 @@ override.tf.json
 *.terraform.lock.hcl
 .terraform/
 */node_modules/**
+*.auto.tfvars
 
 target
