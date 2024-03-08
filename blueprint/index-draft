@@ -49,6 +49,10 @@ This blueprint outlines steps and advice on how to setup, use and customise the 
 
 ## Implementation steps
 
+You may choose to implement Genesys Cloud objects via the UI or by using Terraform.
+* [Configure Genesys Cloud and Amazon using Terraform](#configure-genesys-cloud-using-terraform)
+* [Configure Genesys Cloud and Amazon manually](#configure-genesys-cloud-and-amazon-manually)
+
 ### Information Shared by default
 
 The following table lists the information that is shared by default. 
@@ -69,7 +73,77 @@ The following table lists the information that is shared by default.
 ### Download the repository containing the project files
 
 1. Clone the [genesys-cloud-event-streaming-blueprint](https://github.com/GenesysCloudBlueprints/genesys-cloud-event-streaming-blueprint "Goes to the genesys-cloud-event-streaming-blueprint") in GitHub.
+2. Build the sample code needed for AWS Lambda
+  1. Clone the repository with the source code: `git clone <REPO_URL>`
+  2. Open directory with the source code in a console: `cd <PROJECT_ROOT>`
+  3. Run command `mvn clean verify -U`. It will download dependencies, compile, test and pack everything into a jar file
+  4. If no errors happened on the previous steps, the jar file ready to upload to AWS Lambda: `<PROJECT_ROOT>/target/genesys-external-streaming-integration.jar`
 
+## Configure Genesys Cloud and Amazon using Terraform
+
+### Set up Genesys Cloud
+
+1. You need to set the following environment variables in a terminal window before you can run this project using the Terraform provider:
+
+ * `GENESYSCLOUD_OAUTHCLIENT_ID` - This variable is the Genesys Cloud client credential grant Id that CX as Code executes against. 
+ * `GENESYSCLOUD_OAUTHCLIENT_SECRET` - This variable is the Genesys Cloud client credential secret that CX as Code executes against. 
+ * `GENESYSCLOUD_REGION` - This variable is the Genesys Cloud region in your organization.
+ * `AWS_ACCESS_KEY_ID` - The AWS Access Key you must set up in your Amazon account to allow the AWS Terraform provider to act against your account.
+ * `AWS_SECRET_ACCESS_KEY` - The AWS Secret you must set up in your Amazon account to allow the AWS Terraform provider to act against your account.
+
+2. Set the environment variables in the folder where Terraform is running. 
+
+### Configure your Terraform build
+
+Set the following values in the **/terraform/dev.auto.tfvars** file, specific to your Genesys Cloud organization:
+
+* `genesys_cloud_organization_id` - The value of your OAuth Client ID using Client Credentials to be used for the data action integration.
+* `aws_account_id`- The value of your OAuth Client secret using Client Credentials to be used for the data action integration.
+* `aws_region`- The AWS region where the event source will be made available for an event bus. (e.g. us-east-1)
+* `aws_event_bus_name`- A unique name appended to the Event Source in the AWS account. Maximum of 64 characters consisting of lower/upper case letters, numbers, ., -, _.
+* `aws_sqs_queue_name`- The AWS SQS queue name
+* `aws_stream_name`- The AWS stream name
+* `aws_iam_poicy_name`- The AWS IAM policy name
+* `aws_iam_user_name`- The AWS IAM user name
+* `aws_iam_lambda_role_name`- The AWS IAM lambda role name
+* `aws_lambda_function_name`- The AWS lambda function name
+* `aws_eventbridge_name`- The AWS EventBridge name
+
+The following is an example of the dev.auto.tfvars file.
+
+```
+genesys_cloud_organization_id = "genesys-cloud-org-id"
+aws_account_id                = "aws-account-id"
+aws_region                    = "aws-region"
+aws_event_bus_name            = "gc-event-streaming"
+aws_sqs_queue_name            = "gc-event-streaming-queue"
+aws_stream_name               = "gc-event-streaming-kinesis"
+aws_iam_poicy_name            = "gc-event-streaming-iam-policy"
+aws_iam_user_name             = "gc-event-streaming-iam-user"
+aws_iam_lambda_role_name      = "gc-event-streaming-iam-lambda"
+aws_lambda_function_name      = "gc-event-streaming-lambda"
+aws_eventbridge_name          = "gc-event-streaming-eventbridge"
+```
+
+### Run Terraform
+
+The blueprint solution is now ready for your organization to use. 
+
+1. Change to the **/terraform** folder and issue the following commands:
+
+* `terraform init` - This command initializes a working directory containing Terraform configuration files.
+
+* `terraform plan` - This command executes a trial run against your Genesys Cloud organization and displays a list of all the Genesys Cloud resources created. Review this list and ensure that you are comfortable with the plan before moving on to the next step.
+
+* `terraform apply --auto-approve` - This command creates and deploys the necessary objects in your Genesys Cloud account. The --auto-approve flag completes the required approval step before the command creates the objects.
+
+Once the `terraform apply --auto-approve` command has completed, you should see the output of the entire run along with the number of objects that Terraform successfully created. The following points should be remembered:
+
+* In this project, assume you are running using a local Terraform backing state. In this case, the `tfstate` files are created in the same folder where the project is running. It is not recommended to use local Terraform backing state files unless you are running from a desktop or are comfortable deleting files.
+
+* As long as you keep your local Terraform backing state projects, you can tear down this blueprint solution by changing to the `docs/terraform` folder. You can also issue a `terraform destroy --auto-approve` command. All objects currently managed by the local Terraform backing state are destroyed by this command.
+
+## Configure Genesys Cloud and Amazon manually
 
 ### Genesys Cloud EventBridge Integration
 
@@ -191,10 +265,11 @@ Here is a brief overview of the service: <https://docs.aws.amazon.com/EventBridg
 1. Login into AWS web console
 2. Find **EventBridge** using the search bar on the top. As result, Amazon EventBridge dashboard will be open
 3. On the left menu, click **[Partner event sources](https://us-east-1.console.aws.amazon.com/events/home?region=us-east-1#/partners)**
-4. Find the event bus with name ending with value of **Event Source Suffix** set in the Genesys Cloud integration (see below).
+4. Find the event bus with name ending with value of **Event Source Suffix** set in the Genesys Cloud integration (see above).
+5. Click **Associate with event bus**.
   **If it does not exist then return to setting up the Genesys Cloud integration as that step was not successful.**
-5. Click **Rules** on the left menu, as result **Rules** page is open
-6. Click **Create Rule** button
+6. Click **Rules** on the left menu, as result **Rules** page is open
+7. Click **Create Rule** button
   - Name - any meaningful name of the rule
   - Event bus - the event bus with name ending with value of **Event Source Suffix**
   - Toggle **Enable the rule on the selected event bus** should be left in **Enabled** position
