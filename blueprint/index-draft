@@ -97,8 +97,8 @@ The following table lists the information that is shared by default.
 
 Set the following values in the **/terraform/dev.auto.tfvars** file, specific to your Genesys Cloud organization:
 
-* `genesys_cloud_organization_id` - The value of your OAuth Client ID using Client Credentials to be used for the data action integration.
-* `aws_account_id`- The value of your OAuth Client secret using Client Credentials to be used for the data action integration.
+* `genesys_cloud_organization_id` - Your Genesys Cloud organization ID from **Admin** > **Organization Settings** > **Advanced**.
+* `aws_account_id`- The AWS Account ID where the event source will be made.
 * `aws_region`- The AWS region where the event source will be made available for an event bus. (e.g. us-east-1)
 * `aws_event_bus_name`- A unique name appended to the Event Source in the AWS account. Maximum of 64 characters consisting of lower/upper case letters, numbers, ., -, _.
 * `aws_sqs_queue_name`- The AWS SQS queue name
