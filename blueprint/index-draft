@@ -49,7 +49,7 @@ This blueprint outlines steps and advice on how to setup, use and customise the 
 
 ## Implementation steps
 
-You may choose to implement Genesys Cloud objects via the UI or by using Terraform.
+You can implement Genesys Cloud objects via the UI or by using Terraform.
 * [Configure Genesys Cloud and Amazon using Terraform](#configure-genesys-cloud-using-terraform)
 * [Configure Genesys Cloud and Amazon manually](#configure-genesys-cloud-and-amazon-manually)
 
