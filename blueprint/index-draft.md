@@ -31,7 +31,7 @@ This Genesys Cloud Developer Blueprint explains how to set up, use, and customiz
 
 * Administrator-level knowledge of Genesys Cloud
 * Administrator-level knowledge of Amazon Web Services
-* Knowledge of Java 11 or higher version
+* Knowledge of Java 11 or later versions
 * Knowledge of using Apache Maven tools
 * Working knowledge of npm
 * Working knowledge of jq and Base64
@@ -95,7 +95,7 @@ Set the following environment variables in a terminal window before you can run 
  * `AWS_ACCESS_KEY_ID` - The AWS Access Key you must set up in your Amazon account to allow the AWS Terraform provider to act against your account.
  * `AWS_SECRET_ACCESS_KEY` - The AWS Secret you must set up in your Amazon account to allow the AWS Terraform provider to act against your account.
 
-You must set the environment variables in the same directory that you run the Terraform commands. 
+Set the environment variables in the same directory that you run the Terraform commands. 
 
 ### Configure your Terraform build
 
@@ -137,11 +137,11 @@ Change to the **/terraform** folder and run the following commands:
 
   * `terraform init` - This command initializes a working directory that contains the Terraform configuration files.
 
-  * `terraform plan` - This command executes a trial run on your Genesys Cloud organization and displays the list of all the Genesys Cloud resources that are created. Ensure to review this list before proceeding to the next step.
+  * `terraform plan` - This command executes a trial run on your Genesys Cloud organization and displays the list of all the Genesys Cloud resources that are created. Ensure that you have reviewed this list before proceeding to the next step.
 
   * `terraform apply --auto-approve` - This command creates and deploys the necessary objects in your Genesys Cloud account. The `--auto-approve` flag provides the necessary approval before creating the objects.
 
-After the completion of the `terraform apply --auto-approve` command, you can see all the objects that have been successfully created by Terraform.
+After the `terraform apply --auto-approve` command completes, you can see all the objects that Terraform successfully created.
 
 The project in this blueprint has the following assumptions:
 
@@ -153,8 +153,7 @@ The project in this blueprint has the following assumptions:
 
 ### Genesys Cloud EventBridge Integration
 
-To make the connection between Genesys Cloud and Amazon Kinesis, set up the Amazon Eventbridge integration for sending the events. Each time a conversation event is generated, the integration sends the event 
-from Genesys Cloud to the AWS account of the customers.
+To make the connection between Genesys Cloud and Amazon Kinesis, set up the Amazon Eventbridge integration for sending the events. Each time a conversation event is generated, the integration sends the event from Genesys Cloud to the AWS account of the customers.
 
 1. Log in to Genesys Cloud. 
 2. Navigate to **Admin** > **Integration**.
@@ -164,7 +163,7 @@ from Genesys Cloud to the AWS account of the customers.
 6. In the **Details** tab, accept the default name (Amazon EventBridge Source) or type a different name.
 7. Select the **Configuration** tab.
 ![EventBridge source configuration](./images/AdminUIEventBridgeSourceConfiguration.png)
-8. Enter your 12-digit AWS account ID and the region where to create the partner event source. You can get the AWS accoubt details from the AWS console.
+8. Enter your 12-digit AWS account ID and the region where to create the partner event source. You can get the AWS account details from the AWS console.
 ![AWS user summary](./images/AWSUserSummary.png)
 9. Enter a unique **Event Source Suffix** name to append to the event source in the AWS account as it is used as the name of the EventBridge bus in the AWS. Avoid spaces and special characters in the string.
 10. In **Topic Filtering**, select the notification topics that you want to send to EventBridge. For conversation events, it must be at least `v2.detail.events.conversation.{id}.customer.end` and `v2.detail.events.conversation.{id}.customer.start`. For more information about the list of available topics for the integration, see [Available Topics](https://developer.genesys.cloud/api/rest/v2/notifications/available_topics "Opens the Available topics") in Genesys Cloud Developer Center.
@@ -175,7 +174,7 @@ For more information, see [Configure the Amazon EventBridge integration](https:/
 
 ### Test the integration
 
-Upon successful activation of the integration, a confirmation message displays that the integration is activated. This process creates a event bus for Amazon EventBridge.
+Upon successful activation of the integration, a confirmation message displays that the integration is activated. This process creates an event bus for Amazon EventBridge.
 
 ### Create Amazon Simple Queue Service (Amazon SQS) dead-letter queues
 
@@ -186,7 +185,7 @@ This architecture pattern, called as dead-letter queues (DLQs), can be implement
 2. Click **Create queue**.
 3. For **Type**, select the **Standard** queue type. The FIFO queues are not supported as a fallback destination in AWS Lambda.
 4. The console sets default values for the queue configuration parameters. Under **Configuration**, you can set new values for the following parameters:
-    * For the **Visibility timeout**, enter a value that is longer than the timeout of AWS Lambda or use 900 seconds value if you are unsure.
+    * For the **Visibility timeout**, enter a value that is longer than the timeout of AWS Lambda or use 900 seconds as value if you are unsure.
     * For the **Message retention period**, enter 14 days as the value.
 5. Retain the default values for other options and click **Create queue**.
 
@@ -335,7 +334,7 @@ To set up the external service, check the payload that it receives from the Amaz
 :::primary
 **Note:** Choose a start time approximately when the conversation data was sent or you have to iterate over empty data sets to search.
 :::
-To get the shard iterator, use the following command :
+To get the shard iterator, use the following command:
 
 ``` 
     { 
@@ -375,7 +374,7 @@ The data is base64 encoded and you have to decode it using tools such as, jg or 
 
 ## Additional resources
 
-* The [genesys-cloud-event-streaming-blueprint](https://github.com/GenesysCloudBlueprints/genesys-cloud-event-streaming-blueprint  "Opens the genesys-cloud-event-streaming-blueprint repository in GitHub") repsitory in GitHub
+* The [genesys-cloud-event-streaming-blueprint](https://github.com/GenesysCloudBlueprints/genesys-cloud-event-streaming-blueprint  "Opens the genesys-cloud-event-streaming-blueprint repository in GitHub") repository in GitHub
 * [AWS EventBridge Documentation](https://docs.aws.amazon.com/eventbridge/?id=docs_gateway "Opens the AWS EventBridge documentation") in the AWS Documentation Center
 * [Analytics Detail Events](https://developer.genesys.cloud/analyticsdatamanagement/analytics/detail/analytics-detail-events "Opens the Analytical Detail Events") in the Genesys Cloud Developer Center
 * [Genesys Cloud API - Wrap-up Code Mapping - Useful to get Wrap-up Name via Wrap-up Code Stitching](https://developer.genesys.cloud/devapps/api-explorer#get-api-v2-outbound-wrapupcodemappings:~:text=Outbound-,GET,-/api/v2/outbound "Opens the wrapup code mapping in Genesys Cloud Public API") in the Genesys Cloud Developer Center
