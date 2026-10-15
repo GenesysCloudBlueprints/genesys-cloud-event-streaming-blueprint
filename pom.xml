@@ -27,7 +27,7 @@
         <lombok.version>1.18.24</lombok.version>
         <aws.lambda.java.core.version>1.2.1</aws.lambda.java.core.version>
         <aws.lambda.java.log4j2.version>1.5.1</aws.lambda.java.log4j2.version>
-        <log4j2.version>2.17.2</log4j2.version>
+        <log4j2.version>2.25.5</log4j2.version>
         <aws.kpl.version>0.14.12</aws.kpl.version>
         <aws.java.sdk.version>1.12.239</aws.java.sdk.version>
         <aws.lambda.java.events.version>3.11.0</aws.lambda.java.events.version>
